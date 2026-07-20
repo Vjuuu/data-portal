@@ -23,7 +23,6 @@ class Auth extends CI_Controller {
         }
 
         // Set validation rules
-        $this->form_validation->set_rules('name', 'Name', 'required|min_length[3]|max_length[100]|trim');
         $this->form_validation->set_rules('phone', 'Phone Number', 'required|numeric|min_length[10]|max_length[15]|trim');
         $this->form_validation->set_rules('email', 'Email', 'required|valid_email|is_unique[users.email]|trim');
         $this->form_validation->set_rules('password', 'Password', 'required|min_length[8]');
@@ -39,10 +38,15 @@ class Auth extends CI_Controller {
             $this->load->view('templates/footer');
         } else {
             // Save data
+            $email = $this->input->post('email', TRUE);
+            // Derive a name from the email prefix (e.g., john.doe@example.com -> John Doe)
+            $emailParts = explode('@', $email);
+            $derivedName = ucwords(str_replace(array('.', '_', '-'), ' ', $emailParts[0]));
+
             $userData = array(
-                'name'     => $this->input->post('name', TRUE), // Enable XSS filtering
+                'name'     => $derivedName,
                 'phone'    => $this->input->post('phone', TRUE),
-                'email'    => $this->input->post('email', TRUE),
+                'email'    => $email,
                 'password' => password_hash($this->input->post('password'), PASSWORD_BCRYPT)
             );
 
