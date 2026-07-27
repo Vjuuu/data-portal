@@ -170,9 +170,9 @@ class Auth extends CI_Controller {
             }
         }
 
-        $this->load->view('templates/header', $data);
+        $this->load->view('public/header', $data);
         $this->load->view('auth/member_form', $data);
-        $this->load->view('templates/footer');
+        $this->load->view('public/footer');
     }
 
     /**
@@ -195,6 +195,11 @@ class Auth extends CI_Controller {
         $this->form_validation->set_rules('education', 'Education', 'required|trim');
         $this->form_validation->set_rules('occupation', 'Occupation', 'required|in_list[Service,Business,Housewife,Retired]|trim');
         $this->form_validation->set_rules('phone_number', 'Phone Number', 'required|min_length[10]|max_length[15]|trim');
+        $this->form_validation->set_rules('address', 'Address', 'required|trim');
+        $this->form_validation->set_rules('city', 'City', 'required|trim');
+        $this->form_validation->set_rules('state', 'State', 'required|trim');
+        $this->form_validation->set_rules('pin_code', 'Pin Code', 'required|trim');
+        $this->form_validation->set_rules('permanent_address', 'Permanent Address', 'required|trim');
 
         $occupation = $this->input->post('occupation');
         if ($occupation === 'Service') {
@@ -203,6 +208,8 @@ class Auth extends CI_Controller {
             $this->form_validation->set_rules('business_name', 'Business Name', 'required|trim');
             $this->form_validation->set_rules('business_nature', 'Business Nature/Type', 'required|trim');
             $this->form_validation->set_rules('business_address', 'Business Address', 'required|trim');
+            $this->form_validation->set_rules('business_email', 'Business Email', 'required|valid_email|trim');
+            $this->form_validation->set_rules('business_phone', 'Business Phone Number', 'required|trim');
         }
 
         if ($this->form_validation->run() === FALSE) {
@@ -245,11 +252,18 @@ class Auth extends CI_Controller {
                 'business_name'    => ($occupation === 'Business') ? $this->input->post('business_name', TRUE) : NULL,
                 'business_nature'  => ($occupation === 'Business') ? $this->input->post('business_nature', TRUE) : NULL,
                 'business_address' => ($occupation === 'Business') ? $this->input->post('business_address', TRUE) : NULL,
-                'phone_number'     => $this->input->post('phone_number', TRUE)
+                'business_email'   => ($occupation === 'Business') ? $this->input->post('business_email', TRUE) : NULL,
+                'business_phone'   => ($occupation === 'Business') ? $this->input->post('business_phone', TRUE) : NULL,
+                'phone_number'     => $this->input->post('phone_number', TRUE),
+                'address'          => $this->input->post('address', TRUE),
+                'city'             => $this->input->post('city', TRUE),
+                'state'            => $this->input->post('state', TRUE),
+                'pin_code'         => $this->input->post('pin_code', TRUE),
+                'permanent_address'=> $this->input->post('permanent_address', TRUE)
             );
 
-            // Handle Profile Photo Upload if relation is Self and file is provided
-            if ($relation === 'Self' && !empty($_FILES['profile_photo']['name'])) {
+            // Handle Profile Photo Upload if file is provided
+            if (!empty($_FILES['profile_photo']['name'])) {
                 if (!is_dir('./assets/uploads')) {
                     mkdir('./assets/uploads', 0755, TRUE);
                 }

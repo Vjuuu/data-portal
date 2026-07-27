@@ -58,5 +58,6 @@ $route['logout'] = 'auth/logout';
 $route['member/add'] = 'auth/member_form/add';
 $route['member/self'] = 'auth/member_form/self';
 $route['member/edit/(:num)'] = 'auth/member_form/edit/$1';
+$route['search'] = 'home/search';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;

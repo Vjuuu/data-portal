@@ -1,81 +1,53 @@
-<!-- Hero Carousel Section -->
-<section id="home">
-    <div id="heroCarousel" class="carousel slide carousel-fade carousel-premium" data-bs-ride="carousel" data-bs-interval="6000">
-        <!-- Indicators -->
-        <div class="carousel-indicators" style="margin-bottom: 24px; z-index: 12;">
-            <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1" style="width: 12px; height: 12px; border-radius: 50%; margin: 0 6px;"></button>
-            <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="1" aria-label="Slide 2" style="width: 12px; height: 12px; border-radius: 50%; margin: 0 6px;"></button>
-            <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="2" aria-label="Slide 3" style="width: 12px; height: 12px; border-radius: 50%; margin: 0 6px;"></button>
-        </div>
+<!-- Premium Hero Section with Search Box -->
+<section id="home" class="hero-premium-search d-flex align-items-center" style="min-height: 85vh; padding-top: 100px; padding-bottom: 60px; background: radial-gradient(circle at 10% 20%, rgba(255, 237, 213, 0.4) 0%, rgba(255, 255, 255, 1) 90%); position: relative; overflow: hidden;">
+    <!-- Decorative background glow blobs -->
+    <div class="bg-glow bg-glow-1" style="background: rgba(249, 115, 22, 0.15); filter: blur(120px); width: 350px; height: 350px; position: absolute; top: -50px; left: -100px; border-radius: 50%; z-index: 0; pointer-events: none;"></div>
+    <div class="bg-glow bg-glow-2" style="background: rgba(243, 232, 255, 0.6); filter: blur(120px); width: 450px; height: 450px; position: absolute; bottom: -100px; right: -50px; border-radius: 50%; z-index: 0; pointer-events: none;"></div>
 
-        <div class="carousel-inner">
-            <!-- Slide 1 -->
-            <div class="carousel-item active carousel-item-custom" style="background-image: url('<?php echo base_url('assets/images/carousel1.png'); ?>'); background-color: #0f172a;">
-                <div class="carousel-overlay">
-                    <div class="container">
-                        <div class="carousel-content-box">
-                            <span class="section-badge">अतूट नाते</span>
-                            <h1 class="carousel-title">मराठी <span>विवाह संस्था</span></h1>
-                            <p class="carousel-desc">तुमच्या मनासारखा आणि अनुरूप जीवनसाथी शोधण्यासाठी महाराष्ट्रातील सर्वात विश्वसनीय आणि सुरक्षित विवाह नोंदणी प्लॅटफॉर्म.</p>
-                            <div class="d-flex flex-wrap gap-3">
-                                <a href="<?php echo base_url('login'); ?>" class="btn-premium-orange text-decoration-none">वर-वधू शोध सुरू करा</a>
-                                <a href="#features" class="btn-outline-premium text-decoration-none" style="color: #ffffff; border-color: rgba(255,255,255,0.3);">आमची वैशिष्ट्ये</a>
-                            </div>
+    <div class="container" style="position: relative; z-index: 1;">
+        <div class="row justify-content-center text-center">
+            <div class="col-lg-8">
+                <span class="section-badge mb-3 animate-fade-in" style="background: var(--primary-orange-light); color: var(--primary-orange); padding: 8px 16px; border-radius: 30px; font-weight: 600; font-size: 0.85rem; letter-spacing: 0.5px; display: inline-block;">महाराष्ट्रातील सर्वात विश्वसनीय व्यासपीठ</span>
+                <h1 class="hero-search-title mb-3" style="font-weight: 800; font-size: 3rem; color: var(--text-primary); line-height: 1.25;">
+                    योग्य जीवनसाथीचा शोध <span style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">आता अधिक सोपा</span>
+                </h1>
+                <p class="hero-search-desc mb-5 text-secondary" style="font-size: 1.1rem; max-width: 600px; margin: 0 auto;">
+                    नाव, फोन नंबर, पत्ता किंवा पिन कोड द्वारे त्वरित शोधा आणि हजारो पडताळणी केलेल्या प्रोफाईल्समधून आपला योग्य जीवनसाथी निवडा.
+                </p>
+
+                <!-- Search Form Box -->
+                <div class="search-box-card p-2 p-md-3 rounded-4 shadow-lg mb-4" style="background: #ffffff; border: 1px solid rgba(15, 23, 42, 0.08); backdrop-filter: blur(10px); max-width: 680px; margin: 0 auto;">
+                    <?php echo form_open('search', array('method' => 'get', 'class' => 'd-flex flex-column flex-md-row gap-2')); ?>
+                        <div class="flex-grow-1 position-relative d-flex align-items-center">
+                            <span class="search-icon-inside ms-3" style="position: absolute; left: 0; font-size: 1.2rem; color: var(--text-muted);">🔍</span>
+                            <input type="text" name="query" placeholder="नाव, फोन नंबर, पत्ता किंवा पिन कोड लिहा..." required class="form-control border-0 shadow-none" style="padding-left: 45px; height: 50px; font-size: 1rem; border-radius: 8px; width: 100%; background: transparent;" value="<?php echo isset($search_query) ? htmlspecialchars($search_query) : ''; ?>">
                         </div>
-                    </div>
+                        <button type="submit" class="btn-premium-orange py-2 px-4 d-flex align-items-center justify-content-center gap-2" style="height: 50px; font-size: 1rem; font-weight: 600; border-radius: 8px; white-space: nowrap; border: none; text-decoration: none;">
+                            <span>शोध घ्या (Search)</span>
+                        </button>
+                    <?php echo form_close(); ?>
                 </div>
-            </div>
 
-            <!-- Slide 2 -->
-            <div class="carousel-item carousel-item-custom" style="background-image: url('<?php echo base_url('assets/images/carousel2.png'); ?>'); background-color: #0f172a;">
-                <div class="carousel-overlay">
-                    <div class="container">
-                        <div class="carousel-content-box">
-                            <span class="section-badge">विश्वासू आणि सुरक्षित</span>
-                            <h1 class="carousel-title">योग्य <span>वर-वधू शोध</span></h1>
-                            <p class="carousel-desc">शिक्षण, नोकरी, व्यवसाय आणि कौटुंबिक पार्श्वभूमीनुसार काळजीपूर्वक पडताळणी केलेले हजारो मराठी प्रोफाईल्स उपलब्ध.</p>
-                            <div class="d-flex flex-wrap gap-3">
-                                <a href="<?php echo base_url('register'); ?>" class="btn-premium-orange text-decoration-none">आजच नोंदणी करा</a>
-                                <a href="#gallery" class="btn-outline-premium text-decoration-none" style="color: #ffffff; border-color: rgba(255,255,255,0.3);">यशोगाथा पहा</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Slide 3 -->
-            <div class="carousel-item carousel-item-custom" style="background-image: url('<?php echo base_url('assets/images/carousel3.png'); ?>'); background-color: #0f172a;">
-                <div class="carousel-overlay">
-                    <div class="container">
-                        <div class="carousel-content-box">
-                            <span class="section-badge">कौटुंबिक गोपनीयता</span>
-                            <h1 class="carousel-title">सुरक्षित <span>माहिती व्यवस्थापन</span></h1>
-                            <p class="carousel-desc">तुमची कौटुंबिक आणि वैयक्तिक माहिती आमच्या सुरक्षित सर्व्हरवर पूर्णपणे सुरक्षित आणि गोपनीय ठेवली जाते.</p>
-                            <div class="d-flex flex-wrap gap-3">
-                                <a href="<?php echo base_url('login'); ?>" class="btn-premium-orange text-decoration-none">सुरक्षित लॉग इन</a>
-                                <a href="#contact" class="btn-outline-premium text-decoration-none" style="color: #ffffff; border-color: rgba(255,255,255,0.3);">मदत केंद्र</a>
-                            </div>
-                        </div>
-                    </div>
+                <div class="search-tips text-muted" style="font-size: 0.85rem;">
+                    💡 उदा. <span class="badge bg-light text-secondary border px-2 py-1 mx-1" style="cursor: pointer;" onclick="setSearchDemo('अमित')">अमित</span>, 
+                    <span class="badge bg-light text-secondary border px-2 py-1 mx-1" style="cursor: pointer;" onclick="setSearchDemo('9876543210')">9876543210</span>, 
+                    <span class="badge bg-light text-secondary border px-2 py-1 mx-1" style="cursor: pointer;" onclick="setSearchDemo('पुणे')">पुणे</span>, 
+                    <span class="badge bg-light text-secondary border px-2 py-1 mx-1" style="cursor: pointer;" onclick="setSearchDemo('411001')">411001</span>
                 </div>
             </div>
         </div>
-
-        <!-- Controls -->
-        <button class="carousel-control-prev border-0 bg-transparent" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev" style="left: 30px;">
-            <div class="carousel-controls-custom">
-                <span class="fs-4">←</span>
-            </div>
-            <span class="visually-hidden">मागील</span>
-        </button>
-        <button class="carousel-control-next border-0 bg-transparent" type="button" data-bs-target="#heroCarousel" data-bs-slide="next" style="right: 30px;">
-            <div class="carousel-controls-custom">
-                <span class="fs-4">→</span>
-            </div>
-            <span class="visually-hidden">पुढील</span>
-        </button>
     </div>
 </section>
+
+<script>
+    function setSearchDemo(val) {
+        const input = document.querySelector('input[name="query"]');
+        if (input) {
+            input.value = val;
+            input.focus();
+        }
+    }
+</script>
 
 <!-- Features Grid Section -->
 <section id="features" class="section-padding">

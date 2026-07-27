@@ -111,4 +111,30 @@ class User_model extends CI_Model {
         $this->db->where(array('id' => $id, 'user_id' => $user_id));
         return $this->db->delete('family_members');
     }
+
+    /**
+     * Search candidates by name, phone, address, or pin code
+     *
+     * @param string $query
+     * @return array
+     */
+    public function search_members($query) {
+        $this->db->select('*');
+        $this->db->from('family_members');
+        $this->db->group_start();
+        $this->db->like('first_name', $query);
+        $this->db->or_like('middle_name', $query);
+        $this->db->or_like('last_name', $query);
+        $this->db->or_like('phone_number', $query);
+        $this->db->or_like('business_phone', $query);
+        $this->db->or_like('address', $query);
+        $this->db->or_like('permanent_address', $query);
+        $this->db->or_like('business_address', $query);
+        $this->db->or_like('pin_code', $query);
+        $this->db->group_end();
+        
+        $this->db->order_by("created_at", "DESC");
+        $query_result = $this->db->get();
+        return $query_result->result_array();
+    }
 }

@@ -1130,3 +1130,75 @@ body {
         grid-template-columns: 1fr;
     }
 }
+
+/* Step-by-step Form Section Styling */
+.form-step-section {
+    background: #ffffff;
+    border: 1px solid rgba(15, 23, 42, 0.08);
+    border-radius: 16px;
+    padding: 28px;
+    margin-bottom: 28px;
+    box-shadow: 0 4px 20px rgba(15, 23, 42, 0.02);
+    transition: var(--transition-smooth);
+}
+
+.form-step-section:hover {
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.05);
+    border-color: rgba(249, 115, 22, 0.25);
+}
+
+.step-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 24px;
+    border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+    padding-bottom: 16px;
+}
+
+.step-badge {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    background: var(--primary-gradient);
+    color: #ffffff;
+    border-radius: 50%;
+    font-size: 1rem;
+    font-weight: 700;
+    box-shadow: 0 4px 10px rgba(14, 165, 233, 0.2);
+    flex-shrink: 0;
+}
+
+.step-text {
+    display: flex;
+    flex-direction: column;
+}
+
+.step-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.step-subtitle {
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+    margin: 2px 0 0 0;
+}
+
+/* Photo preview styling */
+.profile-upload-container {
+    background: rgba(15, 23, 42, 0.02);
+    border: 1.5px dashed rgba(15, 23, 42, 0.12);
+    border-radius: 12px;
+    padding: 20px;
+    transition: var(--transition-smooth);
+}
+
+.profile-upload-container:hover {
+    background: rgba(15, 23, 42, 0.04);
+    border-color: var(--accent-color);
+}

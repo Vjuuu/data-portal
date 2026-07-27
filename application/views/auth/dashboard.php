@@ -66,13 +66,30 @@
                                 <span class="business-details-block">
                                     <strong>Name:</strong> <?php echo htmlspecialchars($self_info['business_name']); ?><br>
                                     <strong>Nature:</strong> <?php echo htmlspecialchars($self_info['business_nature']); ?><br>
-                                    <strong>Address:</strong> <?php echo nl2br(htmlspecialchars($self_info['business_address'])); ?>
+                                    <strong>Address:</strong> <?php echo nl2br(htmlspecialchars($self_info['business_address'])); ?><br>
+                                    <strong>Email:</strong> <?php echo htmlspecialchars($self_info['business_email'] ?? 'N/A'); ?><br>
+                                    <strong>Phone:</strong> <?php echo htmlspecialchars($self_info['business_phone'] ?? 'N/A'); ?>
                                 </span>
                             </div>
                         <?php endif; ?>
                         <div class="detail-item">
                             <label>Phone Number</label>
                             <span><?php echo htmlspecialchars($self_info['phone_number']); ?></span>
+                        </div>
+                        <div class="detail-item full-width">
+                            <label>Current Address</label>
+                            <span>
+                                <?php echo nl2br(htmlspecialchars($self_info['address'] ?? 'N/A')); ?><br>
+                                <small style="color: var(--text-secondary);">
+                                    <strong>City:</strong> <?php echo htmlspecialchars($self_info['city'] ?? 'N/A'); ?> | 
+                                    <strong>State:</strong> <?php echo htmlspecialchars($self_info['state'] ?? 'N/A'); ?> | 
+                                    <strong>Pin Code:</strong> <?php echo htmlspecialchars($self_info['pin_code'] ?? 'N/A'); ?>
+                                </small>
+                            </span>
+                        </div>
+                        <div class="detail-item full-width">
+                            <label>Permanent Address</label>
+                            <span><?php echo nl2br(htmlspecialchars($self_info['permanent_address'] ?? 'N/A')); ?></span>
                         </div>
                     </div>
                 <?php else: ?>
@@ -108,8 +125,18 @@
                         <div class="family-cards">
                             <?php foreach ($family_members as $member): ?>
                                 <div class="family-card-item">
-                                    <div class="family-card-header">
-                                        <h4>
+                                    <div class="family-card-header d-flex align-items-center gap-3">
+                                        <div style="position: relative; width: 45px; height: 45px; border-radius: 50%; background: var(--primary-gradient); display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 700; font-size: 1.1rem; border: 2px solid #ffffff; box-shadow: 0 2px 8px rgba(0,0,0,0.1); overflow: hidden; flex-shrink: 0;">
+                                            <?php if (!empty($member['profile_photo'])): ?>
+                                                <img src="<?php echo base_url($member['profile_photo']); ?>" alt="Profile" style="width: 100%; height: 100%; object-fit: cover;">
+                                            <?php else: ?>
+                                                <?php 
+                                                $initials = strtoupper(substr($member['first_name'], 0, 1) . substr($member['last_name'], 0, 1));
+                                                echo htmlspecialchars($initials);
+                                                ?>
+                                            <?php endif; ?>
+                                        </div>
+                                        <h4 class="m-0 flex-grow-1">
                                             <?php echo htmlspecialchars($member['first_name'] . ' ' . $member['last_name']); ?>
                                             <span class="relation-tag"><?php echo htmlspecialchars($member['relation']); ?></span>
                                         </h4>
@@ -129,9 +156,28 @@
                                             <?php echo htmlspecialchars($member['occupation']); ?>
                                             <?php if ($member['occupation'] === 'Service'): ?>
                                                 (<?php echo htmlspecialchars($member['company_name']); ?>)
-                                            <?php elseif ($member['occupation'] === 'Business'): ?>
-                                                - <?php echo htmlspecialchars($member['business_name']); ?>
                                             <?php endif; ?>
+                                        </div>
+                                        
+                                        <?php if ($member['occupation'] === 'Business'): ?>
+                                            <div class="family-meta" style="grid-column: span 2; background: rgba(15, 23, 42, 0.01); padding: 8px; border-radius: 6px; border: 1px solid rgba(15, 23, 42, 0.04);">
+                                                <strong>Business Details:</strong>
+                                                <div class="ps-2 mt-1" style="font-size: 0.8rem; line-height: 1.4;">
+                                                    Name: <?php echo htmlspecialchars($member['business_name']); ?><br>
+                                                    Nature: <?php echo htmlspecialchars($member['business_nature']); ?><br>
+                                                    Address: <?php echo htmlspecialchars($member['business_address']); ?><br>
+                                                    Email: <?php echo htmlspecialchars($member['business_email'] ?? 'N/A'); ?><br>
+                                                    Phone: <?php echo htmlspecialchars($member['business_phone'] ?? 'N/A'); ?>
+                                                </div>
+                                            </div>
+                                        <?php endif; ?>
+                                        
+                                        <div class="family-meta" style="grid-column: span 2; border-top: 1px dashed rgba(15, 23, 42, 0.08); padding-top: 8px; margin-top: 4px;">
+                                            <strong>Address:</strong>
+                                            <div class="ps-2 mt-1" style="font-size: 0.8rem; line-height: 1.4; color: var(--text-secondary);">
+                                                Current: <?php echo htmlspecialchars($member['address'] ?? 'N/A'); ?>, <?php echo htmlspecialchars($member['city'] ?? 'N/A'); ?>, <?php echo htmlspecialchars($member['state'] ?? 'N/A'); ?> - <?php echo htmlspecialchars($member['pin_code'] ?? 'N/A'); ?><br>
+                                                Permanent: <?php echo htmlspecialchars($member['permanent_address'] ?? 'N/A'); ?>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

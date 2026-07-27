@@ -40,4 +40,24 @@ class Home extends CI_Controller {
         $this->load->view('public/home');
         $this->load->view('public/footer');
     }
+
+    /**
+     * Search page for candidates
+     */
+    public function search() {
+        $query = $this->input->get('query', TRUE);
+        $data['title'] = 'शोध निकाल (Search Results)';
+        $data['search_query'] = $query;
+        $data['results'] = array();
+
+        $this->load->model('User_model');
+
+        if (!empty(trim($query))) {
+            $data['results'] = $this->User_model->search_members($query);
+        }
+
+        $this->load->view('public/header', $data);
+        $this->load->view('public/search_results', $data);
+        $this->load->view('public/footer');
+    }
 }
