@@ -76,6 +76,16 @@
                     <li class="nav-item">
                         <a class="nav-link-custom" href="<?php echo base_url('#map'); ?>">कार्यालय</a>
                     </li>
+                    <?php 
+                    $CI =& get_instance();
+                    $CI->load->model('User_model');
+                    $dynPrice = $CI->User_model->get_setting('plan_price', '5999');
+                    ?>
+                    <li class="nav-item">
+                        <a class="nav-link-custom" href="<?php echo base_url('pricing'); ?>" style="font-weight: 700; color: var(--primary-orange);">
+                            <span class="badge bg-warning text-dark me-1" style="font-size: 0.7rem; font-weight: 700;">₹<?php echo number_format($dynPrice, 0); ?></span>किंमत योजना
+                        </a>
+                    </li>
                 </ul>
                 <div class="d-flex align-items-center gap-3">
                     <?php if ($this->session->userdata('logged_in')): ?>
@@ -90,8 +100,6 @@
                             }
                         }
                         
-                        $CI =& get_instance();
-                        $CI->load->model('User_model');
                         $userId = $CI->session->userdata('user_id');
                         $self_info = $CI->User_model->get_member_by_relation($userId, 'Self');
                         $profile_photo_url = '';
@@ -120,6 +128,11 @@
                                 <li>
                                     <a class="dropdown-item py-2 d-flex align-items-center gap-2" href="<?php echo base_url('dashboard'); ?>" style="font-weight: 500; font-size: 0.9rem; color: var(--text-primary);">
                                         <span style="font-size: 1.1rem;">📊</span> डॅशबोर्ड (Dashboard)
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item py-2 d-flex align-items-center gap-2" href="<?php echo base_url('pricing'); ?>" style="font-weight: 500; font-size: 0.9rem; color: var(--text-primary);">
+                                        <span style="font-size: 1.1rem;">💎</span> सदस्यत्व (₹<?php echo number_format($dynPrice, 0); ?>)
                                     </a>
                                 </li>
                                 <?php if ($self_info): ?>

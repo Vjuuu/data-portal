@@ -7,6 +7,44 @@
 
 <div class="container" style="margin-top: 120px; margin-bottom: 60px; position: relative; z-index: 1;">
     <div class="dashboard-container animate-slide-up py-4">
+
+    <?php 
+    $dynPrice = $this->User_model->get_setting('plan_price', '5999');
+    ?>
+
+    <!-- Membership Status Banner -->
+    <?php if (!empty($is_paid)): ?>
+        <div class="alert alert-success d-flex align-items-center justify-content-between flex-wrap gap-3 shadow-sm rounded-4 border-0 p-3 mb-4" style="background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);">
+            <div class="d-flex align-items-center gap-2">
+                <span class="fs-4">👑</span>
+                <div>
+                    <strong class="text-success">आजीवन प्रीमियम सदस्य (Lifetime Premium Member)</strong>
+                    <div class="text-secondary small">आपले ₹<?php echo number_format($dynPrice, 0); ?> चे पेमेंट सत्यापित झाले आहे. सर्व वैशिष्ट्ये सक्रिय आहेत.</div>
+                </div>
+            </div>
+            <div>
+                <a href="<?php echo base_url('payment/success'); ?>" class="btn btn-sm btn-outline-success rounded-pill px-3">
+                    <i class="bi bi-receipt me-1"></i> पावती पहा (Receipt)
+                </a>
+            </div>
+        </div>
+    <?php else: ?>
+        <div class="alert alert-warning d-flex align-items-center justify-content-between flex-wrap gap-3 shadow-sm rounded-4 border-0 p-3 mb-4" style="background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%); border-left: 5px solid #f59e0b !important;">
+            <div class="d-flex align-items-center gap-2">
+                <span class="fs-4">⚠️</span>
+                <div>
+                    <strong class="text-dark">सदस्यत्व प्रलंबित (Payment Pending)</strong>
+                    <div class="text-secondary small">सर्व संपर्क क्रमांक, फोटो आणि जुळवणी तपशील पाहण्यासाठी कृपया ₹<?php echo number_format($dynPrice, 0); ?> चे एकवेळ पेमेंट पूर्ण करा.</div>
+                </div>
+            </div>
+            <div>
+                <a href="<?php echo base_url('pricing'); ?>" class="btn btn-sm text-white rounded-pill px-4 py-2 fw-bold" style="background: linear-gradient(135deg, #f97316 0%, #ea580c 100%); box-shadow: 0 4px 10px rgba(249, 115, 22, 0.3);">
+                    ₹<?php echo number_format($dynPrice, 0); ?> आता भरा (Pay Now) ➔
+                </a>
+            </div>
+        </div>
+    <?php endif; ?>
+
     <!-- Main Content Cards Grid -->
     <div class="row g-4">
         <!-- Self Information Section -->

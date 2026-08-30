@@ -51,22 +51,11 @@ CREATE TABLE IF NOT EXISTS `family_members` (
   `state` varchar(100) DEFAULT NULL,
   `pin_code` varchar(20) DEFAULT NULL,
   `permanent_address` text,
+  `is_visible` tinyint(1) NOT NULL DEFAULT '1',
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb3;
-
---
--- Dumping data for table `family_members`
---
-
-INSERT INTO `family_members` (`id`, `user_id`, `relation`, `first_name`, `middle_name`, `last_name`, `gender`, `education`, `occupation`, `company_name`, `business_name`, `business_nature`, `business_address`, `business_email`, `business_phone`, `phone_number`, `profile_photo`, `address`, `city`, `state`, `pin_code`, `permanent_address`, `created_at`) VALUES
-(1, 1, 'Wife', 'mukta', 'vijay', 'salve', 'Female', 'B.com', 'Housewife', NULL, NULL, NULL, NULL, NULL, NULL, '7854125487', 'assets/uploads/90b6cf720de98a447c69489b6a442e1d.png', 'At Post chitegaon paithan road Aurangabad pin code 431105', 'Aurangabad', 'Maharastra', '431105', 'At Post chitegaon paithan road Aurangabad pin code 431105', '2026-07-17 04:34:10'),
-(2, 1, 'Father', 'shivaji', 'ankushrao', 'salvw', 'Male', '10 th', 'Service', 'webmart', NULL, NULL, NULL, NULL, NULL, '9856325698', NULL, NULL, NULL, NULL, NULL, NULL, '2026-07-17 04:39:23'),
-(4, 1, 'Self', 'vijay', 'shivaji', 'salve', 'Male', 'BCS', 'Retired', NULL, NULL, NULL, NULL, NULL, NULL, '9168585280', 'assets/uploads/504c6401197bf04eec152363edf2c693.jpg', NULL, NULL, NULL, NULL, NULL, '2026-07-17 16:13:30'),
-(5, 3, 'Self', 'kiran', 'ramrao', 'jadhaw', 'Male', 'B.Tech', 'Retired', NULL, NULL, NULL, NULL, NULL, NULL, '9865326598', 'assets/uploads/c9a145cd4133ea26a73c4384ed718b17.png', NULL, NULL, NULL, NULL, NULL, '2026-07-20 14:16:32'),
-(6, 3, 'Father', 'Ramrao', 'aukushrao', 'jadhaw', 'Male', '12th', 'Retired', NULL, NULL, NULL, NULL, NULL, NULL, '9856325698', NULL, NULL, NULL, NULL, NULL, NULL, '2026-07-20 14:17:48'),
-(7, 3, 'Mother', 'jaya', 'ramrao', 'jadhaw', 'Female', '12th', 'Housewife', NULL, NULL, NULL, NULL, NULL, NULL, '9856535698', NULL, NULL, NULL, NULL, NULL, NULL, '2026-07-20 14:19:14');
 
 -- --------------------------------------------------------
 
@@ -81,19 +70,51 @@ CREATE TABLE IF NOT EXISTS `users` (
   `phone` varchar(20) NOT NULL,
   `email` varchar(100) NOT NULL,
   `password` varchar(255) NOT NULL,
+  `role` varchar(20) NOT NULL DEFAULT 'user',
+  `is_visible` tinyint(1) NOT NULL DEFAULT '1',
+  `payment_status` varchar(20) NOT NULL DEFAULT 'unpaid',
+  `paid_at` timestamp NULL DEFAULT NULL,
+  `plan_amount` decimal(10,2) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE KEY `email` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `name`, `phone`, `email`, `password`, `created_at`) VALUES
-(1, 'vijay salve', '9168585280', 'vijaysalve8080@gmail.com', '$2y$10$1iEuwOBmQTqM3Uwqr8jhXeARk4wRbcWE5MkvU6D/aqQ6Phw03J8QK', '2026-07-14 17:29:50'),
-(2, 'sandeep', '9168585280', 'vijaysalve@gmail.com', '$2y$10$QIoGC3nRKKxyADhxDVHloOfJfA6FCQFpQRiIR/w.3lujofU6HzhEC', '2026-07-16 17:14:00'),
-(3, 'Kiran', '9865325698', 'kiran@gmail.com', '$2y$10$DQlnD7QSfXDleKVKvNIcEu3Evhg8g7S6mI8B7DXPrcOWcqhGTw.a6', '2026-07-20 14:13:15');
+INSERT INTO `users` (`id`, `name`, `phone`, `email`, `password`, `role`, `is_visible`, `payment_status`, `paid_at`, `plan_amount`, `created_at`) VALUES
+(1, 'vijay salve', '9168585280', 'vijaysalve8080@gmail.com', '$2y$10$1iEuwOBmQTqM3Uwqr8jhXeARk4wRbcWE5MkvU6D/aqQ6Phw03J8QK', 'user', 1, 'unpaid', NULL, NULL, '2026-07-14 17:29:50'),
+(2, 'sandeep', '9168585280', 'vijaysalve@gmail.com', '$2y$10$QIoGC3nRKKxyADhxDVHloOfJfA6FCQFpQRiIR/w.3lujofU6HzhEC', 'user', 1, 'unpaid', NULL, NULL, '2026-07-16 17:14:00'),
+(3, 'Kiran', '9865325698', 'kiran@gmail.com', '$2y$10$DQlnD7QSfXDleKVKvNIcEu3Evhg8g7S6mI8B7DXPrcOWcqhGTw.a6', 'user', 1, 'unpaid', NULL, NULL, '2026-07-20 14:13:15'),
+(4, 'Super Admin', '9876543210', 'admin@dataportal.com', '$2y$10$QIoGC3nRKKxyADhxDVHloOfJfA6FCQFpQRiIR/w.3lujofU6HzhEC', 'admin', 1, 'paid', NULL, 5999.00, '2026-08-30 08:00:00');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `payments`
+--
+
+DROP TABLE IF EXISTS `payments`;
+CREATE TABLE IF NOT EXISTS `payments` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `user_id` int NOT NULL,
+  `order_id` varchar(100) NOT NULL,
+  `payment_id` varchar(100) DEFAULT NULL,
+  `signature` varchar(255) DEFAULT NULL,
+  `amount` decimal(10,2) NOT NULL DEFAULT '5999.00',
+  `currency` varchar(10) NOT NULL DEFAULT 'INR',
+  `status` varchar(50) NOT NULL DEFAULT 'created',
+  `payment_method` varchar(50) DEFAULT NULL,
+  `payment_response` longtext DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`),
+  KEY `order_id` (`order_id`),
+  KEY `payment_id` (`payment_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Constraints for dumped tables
@@ -104,8 +125,16 @@ INSERT INTO `users` (`id`, `name`, `phone`, `email`, `password`, `created_at`) V
 --
 ALTER TABLE `family_members`
   ADD CONSTRAINT `family_members_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `payments`
+--
+ALTER TABLE `payments`
+  ADD CONSTRAINT `fk_payments_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
+
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+

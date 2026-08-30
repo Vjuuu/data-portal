@@ -59,5 +59,29 @@ $route['member/add'] = 'auth/member_form/add';
 $route['member/self'] = 'auth/member_form/self';
 $route['member/edit/(:num)'] = 'auth/member_form/edit/$1';
 $route['search'] = 'home/search';
+
+// Razorpay Payment & Pricing routes
+$route['pricing'] = 'payment/pricing';
+$route['payment'] = 'payment/pricing';
+$route['payment/create_order'] = 'payment/create_order';
+$route['payment/verify'] = 'payment/verify';
+$route['payment/success'] = 'payment/success';
+$route['payment/success/(:num)'] = 'payment/success/$1';
+$route['payment/invoice/(:num)'] = 'payment/invoice/$1';
+
+// Super Admin Routes
+$route['admin'] = 'admin/index';
+$route['admin/dashboard'] = 'admin/dashboard';
+$route['admin/login'] = 'admin/login';
+$route['admin/logout'] = 'admin/logout';
+$route['admin/users'] = 'admin/users';
+$route['admin/user/(:num)'] = 'admin/user_detail/$1';
+$route['admin/payments'] = 'admin/payments';
+$route['admin/settings'] = 'admin/settings';
+$route['admin/toggle_visibility'] = 'admin/toggle_visibility';
+$route['admin/toggle_payment'] = 'admin/toggle_payment';
+
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
+
+

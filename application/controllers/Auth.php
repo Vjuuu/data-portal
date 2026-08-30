@@ -44,15 +44,31 @@ class Auth extends CI_Controller {
             $derivedName = ucwords(str_replace(array('.', '_', '-'), ' ', $emailParts[0]));
 
             $userData = array(
-                'name'     => $derivedName,
-                'phone'    => $this->input->post('phone', TRUE),
-                'email'    => $email,
-                'password' => password_hash($this->input->post('password'), PASSWORD_BCRYPT)
+                'name'           => $this->input->post('name', TRUE) ?: $derivedName,
+                'phone'          => $this->input->post('phone', TRUE),
+                'email'          => $email,
+                'password'       => password_hash($this->input->post('password'), PASSWORD_BCRYPT),
+                'payment_status' => 'unpaid'
             );
 
             if ($this->User_model->insert_user($userData)) {
-                $this->session->set_flashdata('success', 'Registration successful! Please login with your credentials.');
-                redirect('login');
+                $newUserId = $this->db->insert_id();
+
+                // Auto-login newly registered user to make payment seamless
+                $this->session->sess_regenerate();
+                $sessionData = array(
+                    'user_id'        => $newUserId,
+                    'name'           => $userData['name'],
+                    'email'          => $userData['email'],
+                    'logged_in'      => TRUE,
+                    'payment_status' => 'unpaid'
+                );
+                $this->session->set_userdata($sessionData);
+                $this->session->set_flashdata('just_registered', true);
+                $this->session->set_flashdata('success', 'नोंदणी यशस्वी झाली! कृपया आपले खाते सक्रिय करण्यासाठी ₹5,999 चे एकवेळ पेमेंट पूर्ण करा.');
+                
+                // Immediately show the ₹5,999 Pricing Page
+                redirect('pricing');
             } else {
                 $this->session->set_flashdata('error', 'Something went wrong. Please try again.');
                 redirect('register');
@@ -93,13 +109,20 @@ class Auth extends CI_Controller {
 
                 // Setup session payload
                 $sessionData = array(
-                    'user_id'   => $user['id'],
-                    'name'      => $user['name'],
-                    'email'     => $user['email'],
-                    'logged_in' => TRUE
+                    'user_id'        => $user['id'],
+                    'name'           => $user['name'],
+                    'email'          => $user['email'],
+                    'payment_status' => !empty($user['payment_status']) ? $user['payment_status'] : 'unpaid',
+                    'logged_in'      => TRUE
                 );
 
                 $this->session->set_userdata($sessionData);
+
+                // If user is unpaid, prompt them or redirect to pricing
+                if ($sessionData['payment_status'] !== 'paid') {
+                    $this->session->set_flashdata('info', 'कृपया आपले ₹5,999 चे सदस्यत्व पेमेंट पूर्ण करा.');
+                }
+
                 $this->session->set_flashdata('success', 'Welcome back, ' . $user['name'] . '!');
                 redirect('dashboard');
             } else {
@@ -131,6 +154,8 @@ class Auth extends CI_Controller {
         // Fetch user's family members (including Self details)
         $data['members'] = $this->User_model->get_members($userId);
         $data['self_info'] = $this->User_model->get_member_by_relation($userId, 'Self');
+        $data['is_paid'] = (!empty($data['user']['payment_status']) && $data['user']['payment_status'] === 'paid');
+        $data['payments'] = $this->User_model->get_user_payments($userId);
 
         $data['title'] = 'User Dashboard';
 
